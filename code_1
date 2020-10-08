@@ -1,0 +1,33 @@
+def detail():
+    data_1 = fms1.fip_1.text()
+    data_2 = fms1.fip_2.text()
+    data_3 = fms1.fip_3.text()
+    data_4 = fms1.fip_4.text()
+    if fms1.male.isChecked():
+        data_5 = "M"
+    else:
+        data_5 = "F"
+    con = pymysql.connect("localhost","root",'', "faculty")
+    conn = con.cursor()
+    t1 = "insert into teachers(name,emailid,department,eid,Gender) values('{}','{}','{}',{},'{}');".format(data_1,data_3,data_4,data_2,data_5)
+    
+    conn.execute(t1)
+    con.commit()
+    con.close()
+def detail_1():
+    fms1.close()
+    fms2.show()
+def mydetail():
+    con = pymysql.connect("localhost","root",'', "faculty")
+    conn = con.cursor()
+    a= "select * from teachers;"
+    res = conn.execute(a)
+    con.commit()
+    b = conn.fetchall()
+    fms2.table.setRowCount(0)
+    for row_number,row_data in enumerate(b):
+        fms2.table.insertRow(row_number)
+        for column_number,column_data in enumerate(row_data):
+            fms2.table.setItem(row_number,column_number,QtWidgets.QTableWidgetItem(str(column_data)))
+    con.close()
+    
